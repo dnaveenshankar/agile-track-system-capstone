@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from '../../context/UserContext';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ScrumDetails = ({ scrum }) => {
     const [tasks, setTasks] = useState([]);
     const [users, setUsers] = useState([]);
     const { user } = useContext(UserContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const checkUser = () => {
             const loggedInUser = JSON.parse(localStorage.getItem('user'));
             if (!loggedInUser) {
-                history.push('/login');
+                navigate('/login');
             }
         };
 
         checkUser();
-    }, [history]);
+    }, [navigate]);
 
     useEffect(() => {
         const fetchTasks = async () => {
