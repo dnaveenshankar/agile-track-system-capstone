@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
 import UserProfile from './components/UserProfile/UserProfile';
@@ -12,12 +12,12 @@ const App = () => {
       <Router>
         <div className="app">
           <Nav />
-          <Switch>
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/profiles" component={UserProfile} />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/profiles" element={<UserProfile />} />
+          </Routes>
         </div>
       </Router>
     </UserProvider>
@@ -26,11 +26,11 @@ const App = () => {
 
 const Nav = () => {
   const { user, logout } = useContext(UserContext);
-  const history = useHistory();
+  const navigate = useNavigate(); // Replaced useHistory with useNavigate
 
   const handleLogout = () => {
     logout();
-    history.push('/login');
+    navigate('/login'); // Updated to useNavigate
   };
 
   return (
