@@ -23,12 +23,27 @@ const SignUp = () => {
         }),
         onSubmit: async (values) => {
             try {
+                // Fetch existing users
+                const response = await axios.get('http://localhost:4000/users');
+                const users = response.data;
+
+                // Find the max ID and increment it (ensuring ID remains a string)
+                const maxId = users.length > 0 
+                    ? Math.max(...users.map(user => parseInt(user.id, 10))) 
+                    : 0;
+                const newId = (maxId + 1).toString(); // Convert new ID to string
+
+                // Create new user with string ID
                 await axios.post('http://localhost:4000/users', {
+                    id: newId, // Store ID as a string
                     name: values.name,
                     email: values.email,
                     password: values.password,
                     role: 'employee'
+                }, {
+                    headers: { 'Content-Type': 'application/json' }
                 });
+
                 navigate('/login');
             } catch (error) {
                 console.error('Error signing up:', error);
@@ -40,7 +55,7 @@ const SignUp = () => {
         <div>
             <h2>Sign Up</h2>
             <form onSubmit={formik.handleSubmit}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div>
                     <label>
                         Name:
                         <input
@@ -48,10 +63,9 @@ const SignUp = () => {
                             name="name"
                             value={formik.values.name}
                             onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
                         />
                     </label>
-                    {formik.touched.name && formik.errors.name && (
+                    {formik.errors.name && (
                         <span style={{ color: 'red' }}>{formik.errors.name}</span>
                     )}
 
@@ -62,10 +76,9 @@ const SignUp = () => {
                             name="email"
                             value={formik.values.email}
                             onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
                         />
                     </label>
-                    {formik.touched.email && formik.errors.email && (
+                    {formik.errors.email && (
                         <span style={{ color: 'red' }}>{formik.errors.email}</span>
                     )}
 
@@ -76,10 +89,9 @@ const SignUp = () => {
                             name="password"
                             value={formik.values.password}
                             onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
                         />
                     </label>
-                    {formik.touched.password && formik.errors.password && (
+                    {formik.errors.password && (
                         <span style={{ color: 'red' }}>{formik.errors.password}</span>
                     )}
 
