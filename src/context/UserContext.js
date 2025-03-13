@@ -30,6 +30,3 @@ const UserProvider = ({ children }) => {
 };
 
 export { UserProvider, UserContext };
-
-
-dgffv
