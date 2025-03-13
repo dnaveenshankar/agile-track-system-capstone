@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 const Login = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { login } = useContext(UserContext);
 
     const formik = useFormik({
@@ -27,7 +27,7 @@ const Login = () => {
                 if (response.data.length > 0) {
                     const user = response.data[0];
                     login(user);
-                    history.push(user.role === 'admin' ? '/' : '/profiles');
+                    navigate(user.role === 'admin' ? '/' : '/profiles'); // Redirect based on role
                 } else {
                     alert('Invalid email or password');
                 }
@@ -67,7 +67,7 @@ const Login = () => {
             </div>
 
             <div style={{ marginTop: '10px' }}>
-                <button onClick={() => history.push('/signup')}>Sign Up</button>
+                <button onClick={() => navigate('/signup')}>Sign Up</button>
             </div>
         </div>
     );
