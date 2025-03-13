@@ -4,14 +4,14 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
 import UserProfile from './components/UserProfile/UserProfile';
 import SignUp from './components/Signup/SignUp';
-import { UserProvider, UserContext } from '../src/context/UserContext';
+import { UserProvider, UserContext } from './context/UserContext'; // Corrected import path
 
 const App = () => {
   return (
     <UserProvider>
       <Router>
         <div className="app">
-          <Nav />
+          <Nav /> {/* Ensure Nav is inside UserProvider for context access */}
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
@@ -49,11 +49,9 @@ const Nav = () => {
             </li>
           </>
         ) : (
-          <>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          </>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
         )}
       </ul>
     </nav>
