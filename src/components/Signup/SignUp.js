@@ -2,10 +2,10 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -29,7 +29,7 @@ const SignUp = () => {
                     password: values.password,
                     role: 'employee'
                 });
-                history.push('/login');
+                navigate('/login');
             } catch (error) {
                 console.error('Error signing up:', error);
             }
@@ -39,42 +39,53 @@ const SignUp = () => {
     return (
         <div>
             <h2>Sign Up</h2>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <label>
-                    Name:
-                    <input
-                        type="text"
-                        name="name"
-                        value={formik.values.name}
-                        onChange={formik.handleChange}
-                    />
-                </label>
-                {formik.errors.name && <span style={{ color: 'red' }}>{formik.errors.name}</span>}
+            <form onSubmit={formik.handleSubmit}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <label>
+                        Name:
+                        <input
+                            type="text"
+                            name="name"
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                    </label>
+                    {formik.touched.name && formik.errors.name && (
+                        <span style={{ color: 'red' }}>{formik.errors.name}</span>
+                    )}
 
-                <label>
-                    Email:
-                    <input
-                        type="email"
-                        name="email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                    />
-                </label>
-                {formik.errors.email && <span style={{ color: 'red' }}>{formik.errors.email}</span>}
+                    <label>
+                        Email:
+                        <input
+                            type="email"
+                            name="email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                    </label>
+                    {formik.touched.email && formik.errors.email && (
+                        <span style={{ color: 'red' }}>{formik.errors.email}</span>
+                    )}
 
-                <label>
-                    Password:
-                    <input
-                        type="password"
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                    />
-                </label>
-                {formik.errors.password && <span style={{ color: 'red' }}>{formik.errors.password}</span>}
+                    <label>
+                        Password:
+                        <input
+                            type="password"
+                            name="password"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                    </label>
+                    {formik.touched.password && formik.errors.password && (
+                        <span style={{ color: 'red' }}>{formik.errors.password}</span>
+                    )}
 
-                <button onClick={formik.handleSubmit}>Sign Up</button>
-            </div>
+                    <button type="submit">Sign Up</button>
+                </div>
+            </form>
         </div>
     );
 };
