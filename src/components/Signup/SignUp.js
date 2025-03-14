@@ -18,9 +18,9 @@ const SignUp = () => {
         validationSchema: Yup.object({
             name: Yup.string().required('Name is required'),
             email: Yup.string()
-                .matches(/@/, 'Email must contain @')
+                .matches(/@/, 'Email ID must contain @ Symbol')
                 .required('Email is required')
-                .email('Invalid email format'),
+                .email('Invalid email format (user@example.in)'),
             password: Yup.string().required('Password is required')
         }),
         onSubmit: async (values) => {

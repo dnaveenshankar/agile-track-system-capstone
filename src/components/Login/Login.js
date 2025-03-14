@@ -16,9 +16,9 @@ const Login = () => {
         },
         validationSchema: Yup.object({
             email: Yup.string()
-                .matches(/@/, 'Email must contain @')
+                .matches(/@/, 'Email must contain @ Symbol')
                 .required('Email is required')
-                .email('Invalid email format'),
+                .email('Invalid email format (Eg: user@example.in)'),
             password: Yup.string().required('Password is required')
         }),
         onSubmit: async (values) => {
@@ -27,7 +27,7 @@ const Login = () => {
                 if (response.data.length > 0) {
                     const user = response.data[0];
                     login(user);
-                    navigate(user.role === 'admin' ? '/' : '/profiles'); // Redirect based on role
+                    navigate(user.role === 'admin' ? '/' : '/profiles');
                 } else {
                     alert('Invalid email or password');
                 }
