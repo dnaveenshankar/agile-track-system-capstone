@@ -7,7 +7,7 @@ import { UserContext } from '../../context/UserContext';
 
 const SignUp = () => {
     const navigate = useNavigate();
-    const { login } = useContext(UserContext); // Get login function from context
+    const { login } = useContext(UserContext);
 
     const formik = useFormik({
         initialValues: {
@@ -25,33 +25,27 @@ const SignUp = () => {
         }),
         onSubmit: async (values) => {
             try {
-                // Fetch existing users
                 const response = await axios.get('http://localhost:4000/users');
                 const users = response.data;
-
-                // Find the max ID and increment it
                 const maxId = users.length > 0 
                     ? Math.max(...users.map(user => parseInt(user.id, 10))) 
                     : 0;
-                const newId = (maxId + 1).toString(); // Convert new ID to string
+                const newId = (maxId + 1).toString(); 
 
-                // Create new user
                 const newUser = {
                     id: newId,
                     name: values.name,
                     email: values.email,
                     password: values.password,
-                    role: 'employee' // Default role
+                    role: 'employee' 
                 };
 
                 await axios.post('http://localhost:4000/users', newUser, {
                     headers: { 'Content-Type': 'application/json' }
                 });
 
-                // Auto-login after signup
                 login(newUser);
 
-                // Redirect based on role
                 navigate(newUser.role === 'admin' ? '/' : '/profiles');
             } catch (error) {
                 console.error('Error signing up:', error);
