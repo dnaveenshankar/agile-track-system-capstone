@@ -27,7 +27,7 @@ const Login = () => {
                 if (response.data.length > 0) {
                     const user = response.data[0];
                     login(user);
-                    navigate(user.role === 'admin' ? '/' : '/profiles'); // Redirect based on role
+                    navigate(user.role === 'admin' ? '/' : '/profiles'); 
                 } else {
                     alert('Invalid email or password');
                 }
