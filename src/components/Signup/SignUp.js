@@ -23,19 +23,16 @@ const SignUp = () => {
         }),
         onSubmit: async (values) => {
             try {
-                // Fetch existing users
                 const response = await axios.get('http://localhost:4000/users');
                 const users = response.data;
 
-                // Find the max ID and increment it (ensuring ID remains a string)
                 const maxId = users.length > 0 
                     ? Math.max(...users.map(user => parseInt(user.id, 10))) 
                     : 0;
-                const newId = (maxId + 1).toString(); // Convert new ID to string
+                const newId = (maxId + 1).toString(); 
 
-                // Create new user with string ID
                 await axios.post('http://localhost:4000/users', {
-                    id: newId, // Store ID as a string
+                    id: newId,
                     name: values.name,
                     email: values.email,
                     password: values.password,

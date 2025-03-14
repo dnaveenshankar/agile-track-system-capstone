@@ -67,19 +67,16 @@ const UserProfile = () => {
                             })}
                             onSubmit={async (values, { setSubmitting, resetForm }) => {
                                 try {
-                                    // Fetch all users
                                     const response = await axios.get('http://localhost:4000/users');
                                     const users = response.data;
 
-                                    // Find the max ID and increment it
                                     const maxId = users.length > 0
                                         ? Math.max(...users.map(user => parseInt(user.id, 10)))
                                         : 0;
-                                    const newId = (maxId + 1).toString(); // Ensure ID is stored as a string
+                                    const newId = (maxId + 1).toString(); 
 
-                                    // Create new user with string ID
                                     await axios.post('http://localhost:4000/users', {
-                                        id: newId, // Store ID as a string
+                                        id: newId, 
                                         name: values.name,
                                         email: values.email,
                                         password: values.password,
@@ -88,7 +85,7 @@ const UserProfile = () => {
                                         headers: { 'Content-Type': 'application/json' }
                                     });
 
-                                    // Refresh user list
+                                    
                                     const updatedUsers = await axios.get('http://localhost:4000/users');
                                     setUsers(updatedUsers.data.filter(u => u?.role !== 'admin'));
 

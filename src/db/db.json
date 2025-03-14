@@ -2,22 +2,22 @@
   "users": [
     {
       "id": "1",
-      "name": "Admin User",
-      "email": "admin@gmail.com",
+      "name": "Naveen",
+      "email": "naveen@gmail.com",
       "password": "pass123",
       "role": "admin"
     },
     {
       "id": "2",
-      "name": "user1",
-      "email": "user1@gmail.com",
+      "name": "Jai",
+      "email": "jai@gmail.com",
       "password": "pass123",
       "role": "employee"
     },
     {
       "id": "3",
-      "name": "user2",
-      "email": "user2@gmail.com",
+      "name": "Raj",
+      "email": "raj@gmail.com",
       "password": "pass123",
       "role": "employee"
     }
@@ -25,7 +25,11 @@
   "scrums": [
     {
       "id": "1",
-      "name": "Scrum A"
+      "name": "Scrum Team A"
+    },
+    {
+      "id": "2",
+      "name": "Scrum Team B"
     }
   ],
   "tasks": [
@@ -40,6 +44,20 @@
         {
           "status": "To Do",
           "date": "2025-03-13"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Dashboard",
+      "description": "Working with dashboard functionalities",
+      "status": "In Progress",
+      "scrumId": "2",
+      "assignedTo": "3",
+      "history": [
+        {
+          "status": "In Progress",
+          "date": "2025-03-14"
         }
       ]
     }

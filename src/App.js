@@ -4,14 +4,14 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
 import UserProfile from './components/UserProfile/UserProfile';
 import SignUp from './components/Signup/SignUp';
-import { UserProvider, UserContext } from './context/UserContext'; // Corrected import path
+import { UserProvider, UserContext } from './context/UserContext'; 
 
 const App = () => {
   return (
     <UserProvider>
       <Router>
         <div className="app">
-          <Nav /> {/* Ensure Nav is inside UserProvider for context access */}
+          <Nav />
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
@@ -26,11 +26,11 @@ const App = () => {
 
 const Nav = () => {
   const { user, logout } = useContext(UserContext);
-  const navigate = useNavigate(); // Replaced useHistory with useNavigate
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
     logout();
-    navigate('/login'); // Updated to useNavigate
+    navigate('/login'); 
   };
 
   return (
