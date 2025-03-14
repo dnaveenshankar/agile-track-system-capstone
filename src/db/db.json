@@ -20,6 +20,20 @@
       "email": "raj@gmail.com",
       "password": "pass123",
       "role": "employee"
+    },
+    {
+      "id": "4",
+      "name": "Kamal",
+      "email": "kamal@gmail.com",
+      "password": "pass123",
+      "role": "employee"
+    },
+    {
+      "id": "5",
+      "name": "Kavin",
+      "email": "kavin@gmail.com",
+      "password": "pass123",
+      "role": "employee"
     }
   ],
   "scrums": [
