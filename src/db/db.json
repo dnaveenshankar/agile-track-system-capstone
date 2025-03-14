@@ -44,15 +44,8 @@
     },
     {
       "id": "7",
-      "name": "Teja",
+      "name": "teja",
       "email": "teja@gmail.com",
-      "password": "pass123",
-      "role": "employee"
-    },
-    {
-      "id": "8",
-      "name": "Surya",
-      "email": "surya@gmail.com",
       "password": "pass123",
       "role": "employee"
     }
@@ -106,7 +99,7 @@
       "description": "Add form validation",
       "status": "To Do",
       "scrumId": "3",
-      "assignedTo": "7",
+      "assignedTo": "3",
       "history": [
         {
           "status": "To Do",

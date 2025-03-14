@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const { login } = useContext(UserContext); // Get login function from context
 
     const formik = useFormik({
         initialValues: {
@@ -27,24 +29,30 @@ const SignUp = () => {
                 const response = await axios.get('http://localhost:4000/users');
                 const users = response.data;
 
-                // Find the max ID and increment it (ensuring ID remains a string)
+                // Find the max ID and increment it
                 const maxId = users.length > 0 
                     ? Math.max(...users.map(user => parseInt(user.id, 10))) 
                     : 0;
                 const newId = (maxId + 1).toString(); // Convert new ID to string
 
-                // Create new user with string ID
-                await axios.post('http://localhost:4000/users', {
-                    id: newId, // Store ID as a string
+                // Create new user
+                const newUser = {
+                    id: newId,
                     name: values.name,
                     email: values.email,
                     password: values.password,
-                    role: 'employee'
-                }, {
+                    role: 'employee' // Default role
+                };
+
+                await axios.post('http://localhost:4000/users', newUser, {
                     headers: { 'Content-Type': 'application/json' }
                 });
 
-                navigate('/login');
+                // Auto-login after signup
+                login(newUser);
+
+                // Redirect based on role
+                navigate(newUser.role === 'admin' ? '/' : '/profiles');
             } catch (error) {
                 console.error('Error signing up:', error);
             }
@@ -65,9 +73,7 @@ const SignUp = () => {
                             onChange={formik.handleChange}
                         />
                     </label>
-                    {formik.errors.name && (
-                        <span style={{ color: 'red' }}>{formik.errors.name}</span>
-                    )}
+                    {formik.errors.name && <span style={{ color: 'red' }}>{formik.errors.name}</span>}
 
                     <label>
                         Email:
@@ -78,9 +84,7 @@ const SignUp = () => {
                             onChange={formik.handleChange}
                         />
                     </label>
-                    {formik.errors.email && (
-                        <span style={{ color: 'red' }}>{formik.errors.email}</span>
-                    )}
+                    {formik.errors.email && <span style={{ color: 'red' }}>{formik.errors.email}</span>}
 
                     <label>
                         Password:
@@ -91,9 +95,7 @@ const SignUp = () => {
                             onChange={formik.handleChange}
                         />
                     </label>
-                    {formik.errors.password && (
-                        <span style={{ color: 'red' }}>{formik.errors.password}</span>
-                    )}
+                    {formik.errors.password && <span style={{ color: 'red' }}>{formik.errors.password}</span>}
 
                     <button type="submit">Sign Up</button>
                 </div>
