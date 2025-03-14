@@ -1,54 +1,54 @@
-import React, { useContext } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const navigate = useNavigate();
-    const { login } = useContext(UserContext);
 
     const formik = useFormik({
         initialValues: {
-            name: "",
-            email: "",
-            password: "",
+            name: '',
+            email: '',
+            password: ''
         },
         validationSchema: Yup.object({
-            name: Yup.string().required("Name is required"),
+            name: Yup.string().required('Name is required'),
             email: Yup.string()
                 .matches(/@/, 'Email must contain @')
                 .required('Email is required')
                 .email('Invalid email format'),
-            password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+            password: Yup.string().required('Password is required')
         }),
         onSubmit: async (values) => {
             try {
-                const response = await axios.get("http://localhost:4000/users");
+                // Fetch existing users
+                const response = await axios.get('http://localhost:4000/users');
                 const users = response.data;
 
-                const maxId = users.length > 0 ? Math.max(...users.map((user) => parseInt(user.id, 10))) : 0;
-                const newId = (maxId + 1).toString();
+                // Find the max ID and increment it (ensuring ID remains a string)
+                const maxId = users.length > 0 
+                    ? Math.max(...users.map(user => parseInt(user.id, 10))) 
+                    : 0;
+                const newId = (maxId + 1).toString(); // Convert new ID to string
 
-                const newUser = {
-                    id: newId,
+                // Create new user with string ID
+                await axios.post('http://localhost:4000/users', {
+                    id: newId, // Store ID as a string
                     name: values.name,
                     email: values.email,
                     password: values.password,
-                    role: "employee",
-                };
-
-                await axios.post("http://localhost:4000/users", newUser, {
-                    headers: { "Content-Type": "application/json" },
+                    role: 'employee'
+                }, {
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
-                login(newUser);
-                navigate("/");
+                navigate('/login');
             } catch (error) {
-                console.error("Error signing up:", error);
+                console.error('Error signing up:', error);
             }
-        },
+        }
     });
 
     return (
@@ -58,21 +58,42 @@ const SignUp = () => {
                 <div>
                     <label>
                         Name:
-                        <input type="text" name="name" value={formik.values.name} onChange={formik.handleChange} />
+                        <input
+                            type="text"
+                            name="name"
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                        />
                     </label>
-                    {formik.errors.name && <span style={{ color: "red" }}>{formik.errors.name}</span>}
+                    {formik.errors.name && (
+                        <span style={{ color: 'red' }}>{formik.errors.name}</span>
+                    )}
 
                     <label>
                         Email:
-                        <input type="email" name="email" value={formik.values.email} onChange={formik.handleChange} />
+                        <input
+                            type="email"
+                            name="email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                        />
                     </label>
-                    {formik.errors.email && <span style={{ color: "red" }}>{formik.errors.email}</span>}
+                    {formik.errors.email && (
+                        <span style={{ color: 'red' }}>{formik.errors.email}</span>
+                    )}
 
                     <label>
                         Password:
-                        <input type="password" name="password" value={formik.values.password} onChange={formik.handleChange} />
+                        <input
+                            type="password"
+                            name="password"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                        />
                     </label>
-                    {formik.errors.password && <span style={{ color: "red" }}>{formik.errors.password}</span>}
+                    {formik.errors.password && (
+                        <span style={{ color: 'red' }}>{formik.errors.password}</span>
+                    )}
 
                     <button type="submit">Sign Up</button>
                 </div>

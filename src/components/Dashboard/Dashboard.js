@@ -61,24 +61,28 @@ const Dashboard = () => {
         }),
         onSubmit: async (values, { resetForm }) => {
             try {
+                // Fetch existing scrums to determine the new ID
                 const scrumsResponse = await axios.get('http://localhost:4000/scrums');
                 const scrums = scrumsResponse.data;
         
+                // Get the highest ID and increment by 1
                 const newId = scrums.length > 0 
                     ? (Math.max(...scrums.map(scrum => parseInt(scrum.id, 10))) + 1).toString() 
-                    : "1"; 
+                    : "1"; // Start from "1" if no scrums exist
         
+                // Create new Scrum
                 const newScrumResponse = await axios.post('http://localhost:4000/scrums', {
-                    id: newId,  
+                    id: newId,  // ID as string
                     name: values.scrumName
                 });
         
+                // Create new Task linked to the Scrum
                 await axios.post('http://localhost:4000/tasks', {
-                    id: newId,  
+                    id: newId,  // ID as string
                     title: values.taskTitle,
                     description: values.taskDescription,
                     status: values.taskStatus,
-                    scrumId: newScrumResponse.data.id, 
+                    scrumId: newScrumResponse.data.id, // Keep this as number
                     assignedTo: values.taskAssignedTo,
                     history: [
                         {
@@ -88,7 +92,7 @@ const Dashboard = () => {
                     ],
                 });
         
-                setScrums([...scrums, newScrumResponse.data]); 
+                setScrums([...scrums, newScrumResponse.data]); // Update UI
                 setShowForm(false);
                 resetForm();
             } catch (error) {

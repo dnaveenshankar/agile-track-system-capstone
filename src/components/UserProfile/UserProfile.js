@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from '../../context/UserContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { UserContext } from '../../context/UserContext';
 
 const UserProfile = () => {
     const [users, setUsers] = useState([]);
@@ -67,16 +67,19 @@ const UserProfile = () => {
                             })}
                             onSubmit={async (values, { setSubmitting, resetForm }) => {
                                 try {
+                                    // Fetch all users
                                     const response = await axios.get('http://localhost:4000/users');
                                     const users = response.data;
 
+                                    // Find the max ID and increment it
                                     const maxId = users.length > 0
                                         ? Math.max(...users.map(user => parseInt(user.id, 10)))
                                         : 0;
-                                    const newId = (maxId + 1).toString(); 
+                                    const newId = (maxId + 1).toString(); // Ensure ID is stored as a string
 
+                                    // Create new user with string ID
                                     await axios.post('http://localhost:4000/users', {
-                                        id: newId, 
+                                        id: newId, // Store ID as a string
                                         name: values.name,
                                         email: values.email,
                                         password: values.password,
@@ -85,7 +88,7 @@ const UserProfile = () => {
                                         headers: { 'Content-Type': 'application/json' }
                                     });
 
-                                    
+                                    // Refresh user list
                                     const updatedUsers = await axios.get('http://localhost:4000/users');
                                     setUsers(updatedUsers.data.filter(u => u?.role !== 'admin'));
 
