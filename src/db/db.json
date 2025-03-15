@@ -69,6 +69,10 @@
     {
       "id": "3",
       "name": "Scrum Team C"
+    },
+    {
+      "id": "4",
+      "name": "Scrum Team D"
     }
   ],
   "tasks": [
@@ -111,6 +115,24 @@
         {
           "status": "To Do",
           "date": "2025-03-14"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Database Connection",
+      "description": "Test the database connection",
+      "status": "In Progress",
+      "scrumId": "4",
+      "assignedTo": "8",
+      "history": [
+        {
+          "status": "To Do",
+          "date": "2025-03-15"
+        },
+        {
+          "status": "In Progress",
+          "date": "2025-03-15"
         }
       ]
     }
