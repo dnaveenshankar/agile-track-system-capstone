@@ -20,7 +20,7 @@ const SignUp = () => {
             email: Yup.string()
                 .matches(/@/, 'Email ID must contain @ Symbol')
                 .required('Email is required')
-                .email('Invalid email format (user@example.in)'),
+                .email('Invalid email format (Eg: user@example.in)'),
             password: Yup.string().required('Password is required')
         }),
         onSubmit: async (values) => {
@@ -46,7 +46,7 @@ const SignUp = () => {
 
                 login(newUser);
 
-                navigate(newUser.role === 'admin' ? '/' : '/profiles');
+                navigate('/');
             } catch (error) {
                 console.error('Error signing up:', error);
             }

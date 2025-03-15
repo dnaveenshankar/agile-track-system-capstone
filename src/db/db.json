@@ -48,6 +48,13 @@
       "email": "teja@gmail.com",
       "password": "pass123",
       "role": "employee"
+    },
+    {
+      "id": "8",
+      "name": "Rohit",
+      "email": "rohit@gmail.com",
+      "password": "pass123",
+      "role": "employee"
     }
   ],
   "scrums": [

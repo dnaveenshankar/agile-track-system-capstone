@@ -27,7 +27,7 @@ const Login = () => {
                 if (response.data.length > 0) {
                     const user = response.data[0];
                     login(user);
-                    navigate(user.role === 'admin' ? '/' : '/profiles');
+                    navigate('/');
                 } else {
                     alert('Invalid email or password');
                 }
@@ -40,7 +40,7 @@ const Login = () => {
     return (
         <div>
             <h2>Login</h2>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div>
                 <label>
                     Email:
                     <input
